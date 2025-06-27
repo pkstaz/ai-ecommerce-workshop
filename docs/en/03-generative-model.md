@@ -4,7 +4,7 @@
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Predictive Model](02-predictive-model.md) | [🏠 Main Guide](../README.md) | [➡️ Next: LangChain Integration](04-langchain-integration.md)
+[⬅️ Previous: Predictive Model](02-predictive-model.md) | [🏠 Main Guide](README.md) | [➡️ Next: LangChain Integration](04-langchain-integration.md)
 
 ---
 
@@ -534,7 +534,7 @@ The integration will enable powerful use cases like predicting sales AND generat
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Predictive Model](02-predictive-model.md) | [🏠 Main Guide](../README.md) | [➡️ Next: LangChain Integration](04-langchain-integration.md)
+[⬅️ Previous: Predictive Model](02-predictive-model.md) | [🏠 Main Guide](README.md) | [➡️ Next: LangChain Integration](04-langchain-integration.md)
 
 ---
 

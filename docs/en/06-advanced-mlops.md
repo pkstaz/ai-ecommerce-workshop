@@ -4,7 +4,7 @@
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Monitoring](05-monitoring.md) | [🏠 Main Guide](../README.md)
+[⬅️ Previous: Monitoring](05-monitoring.md) | [🏠 Main Guide](README.md)
 
 ---
 
@@ -787,7 +787,7 @@ Expected business outcomes:
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Monitoring](05-monitoring.md) | [🏠 Main Guide](../README.md)
+[⬅️ Previous: Monitoring](05-monitoring.md) | [🏠 Main Guide](README.md)
 
 ---
 

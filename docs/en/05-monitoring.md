@@ -4,7 +4,7 @@
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: LangChain Integration](04-langchain-integration.md) | [🏠 Main Guide](../README.md) | [➡️ Next: Advanced MLOps](06-advanced-mlops.md)
+[⬅️ Previous: LangChain Integration](04-langchain-integration.md) | [🏠 Main Guide](README.md) | [➡️ Next: Advanced MLOps](06-advanced-mlops.md)
 
 ---
 
@@ -632,7 +632,7 @@ These advanced practices will prepare your AI system for enterprise-scale produc
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: LangChain Integration](04-langchain-integration.md) | [🏠 Main Guide](../README.md) | [➡️ Next: Advanced MLOps](06-advanced-mlops.md)
+[⬅️ Previous: LangChain Integration](04-langchain-integration.md) | [🏠 Main Guide](README.md) | [➡️ Next: Advanced MLOps](06-advanced-mlops.md)
 
 ---
 

@@ -30,6 +30,7 @@ In this module, you will:
 ### Problem Statement
 
 **Goal:** Predict daily sales volume for e-commerce products to optimize:
+
 - **Inventory Management** - Prevent stockouts and overstocking
 - **Supply Chain Planning** - Optimize procurement and logistics  
 - **Marketing Campaigns** - Target high-potential products
@@ -46,16 +47,22 @@ In this module, you will:
 
 ### Data Understanding
 
-Our sales dataset contains these key elements:
+Our sales dataset contains key elements organized in categories:
 
-```python
-# Dataset structure overview
-Sales Data Features:
-├── Temporal: date, day_of_week, month, quarter, holiday_flag
-├── Product: product_id, category, price, promotion_flag
-├── Customer: customer_segment, geography, purchase_history
-└── Target: daily_sales_volume (what we want to predict)
-```
+**Temporal Features:**
+- Dates, day of week, month, quarter
+- Holiday and weekend indicators
+- Seasonal and cyclical patterns
+
+**Product Features:**
+- Product IDs, categories, prices
+- Promotion and discount flags
+- Category-specific attributes
+
+**Customer Features:**
+- Customer segments, geography
+- Purchase history and behavior
+- Preference patterns
 
 ---
 
@@ -63,102 +70,85 @@ Sales Data Features:
 
 ### Data Exploration
 
-1. **Execute Data Exploration Notebook**
-   - Open and run: `2-predictive-model/notebooks/01_data_exploration.ipynb`
-   
-   This notebook performs:
-   ```python
-   # Key exploration steps
-   # 1. Load and examine dataset structure
-   # 2. Analyze sales patterns and seasonality
-   # 3. Identify missing values and outliers
-   # 4. Explore correlations between features
-   # 5. Visualize temporal trends and distributions
-   ```
+The notebook `2-predictive-model/notebooks/01_data_exploration.ipynb` will perform comprehensive data analysis:
 
-2. **Key Insights Discovery**
-   The notebook will reveal patterns such as:
-   - **Seasonal Trends:** Holiday and weekend sales spikes
-   - **Product Categories:** Electronics vs. clothing performance
-   - **Price Sensitivity:** Impact of promotions on volume
-   - **Geographic Patterns:** Regional sales variations
+#### **Exploratory Data Analysis (EDA)**
+- **Loading and examination** of dataset structure
+- **Distribution analysis** of sales and explanatory variables
+- **Missing value identification** and outliers
+- **Correlation exploration** between features
+- **Temporal trend visualization** and seasonal patterns
+
+#### **Key Insights to Discover**
+The analysis will reveal important patterns such as:
+- **Seasonal Trends:** Holiday and weekend sales spikes
+- **Product Categories:** Differential performance between electronics vs. clothing
+- **Price Sensitivity:** Impact of promotions on volume
+- **Geographic Patterns:** Regional sales variations
 
 ### Feature Engineering
 
-1. **Create Enhanced Features**
-   - Run: `2-predictive-model/notebooks/02_feature_engineering.ipynb`
-   
-   This creates sophisticated features:
+The notebook `2-predictive-model/notebooks/02_feature_engineering.ipynb` will create sophisticated features:
 
-   | Feature Type | Examples | Purpose |
-   |--------------|----------|---------|
-   | **Temporal** | `day_of_week`, `month`, `quarter` | Capture cyclical patterns |
-   | **Lag Features** | `sales_7d_avg`, `sales_30d_avg` | Historical context |
-   | **Product** | `price_category`, `promotion_flag` | Product characteristics |
-   | **Seasonal** | `holiday_flag`, `weekend_flag` | Special periods |
-   | **Interaction** | `price_x_promotion`, `category_x_season` | Combined effects |
+#### **Temporal Features**
+- **Cyclical:** Day of week, month, quarter to capture recurring patterns
+- **Lag Features:** 7-day and 30-day moving averages for historical context
+- **Trends:** Growth slopes and temporal patterns
 
-2. **Feature Engineering Code Examples**
-   ```python
-   # Temporal features
-   df['day_of_week'] = df['date'].dt.dayofweek
-   df['month'] = df['date'].dt.month
-   df['quarter'] = df['date'].dt.quarter
-   
-   # Lag features for trend analysis
-   df['sales_7d_avg'] = df['sales_volume'].rolling(7).mean()
-   df['sales_30d_avg'] = df['sales_volume'].rolling(30).mean()
-   
-   # Price categorization
-   df['price_category'] = pd.cut(df['price'], 
-                                bins=[0, 50, 200, 1000, float('inf')], 
-                                labels=['Low', 'Medium', 'High', 'Premium'])
-   ```
+#### **Product Features**
+- **Price categorization:** Segmentation into low, medium, high, premium
+- **Promotion flags:** Binary indicators of active offers
+- **Category features:** Product type-specific attributes
 
-**✅ Checkpoint:** Features are engineered and dataset is ready for model training.
+#### **Interaction Features**
+- **Price-promotion crossover:** Combined effects of price and discounts
+- **Category-season:** Seasonal patterns specific to product type
+- **Customer-product:** Affinities between segments and categories
+
+#### **Advanced Processing**
+The notebook will implement techniques such as:
+- **Categorical variable encoding** using one-hot and target encoding
+- **Normalization and scaling** of numerical variables
+- **Outlier handling** through statistical techniques
+- **Generated feature quality validation**
+
+**✅ Checkpoint:** Features are engineered and dataset is ready for training.
 
 ---
 
 ## 🤖 Step 2.3: Model Training and Validation
 
-### Model Training Process
+### Training Process
 
-1. **Execute Model Training**
-   - Run: `2-predictive-model/notebooks/03_train_model.ipynb`
-   
-   This notebook implements:
+The notebook `2-predictive-model/notebooks/03_train_model.ipynb` will implement a complete pipeline:
 
-   ```python
-   # Training pipeline overview
-   # 1. Data splitting (70% train, 15% validation, 15% test)
-   # 2. Feature scaling and preprocessing
-   # 3. Hyperparameter tuning with cross-validation
-   # 4. Model training with best parameters
-   # 5. Performance evaluation and validation
-   ```
+#### **Random Forest: Why This Choice?**
+**Random Forest** is ideal for this use case because:
+- **Mixed feature handling** - Numerical and categorical without extensive preprocessing
+- **Robustness to outliers** - Less sensitive to extreme values than other algorithms
+- **Feature importance** - Provides insights into which variables are most predictive
+- **Non-parametric** - Doesn't assume specific distributions in data
+- **Parallelizable** - Efficient training on multiple cores
 
-2. **Model Configuration**
-   ```python
-   # Random Forest configuration
-   from sklearn.ensemble import RandomForestRegressor
-   from sklearn.model_selection import RandomizedSearchCV
-   
-   # Hyperparameter search space
-   param_grid = {
-       'n_estimators': [100, 200, 300, 500],
-       'max_depth': [10, 20, 30, None],
-       'min_samples_split': [2, 5, 10],
-       'min_samples_leaf': [1, 2, 4],
-       'bootstrap': [True, False]
-   }
-   ```
+#### **Training Pipeline**
+1. **Data splitting** - 70% training, 15% validation, 15% test
+2. **Preprocessing** - Scaling and final transformations
+3. **Hyperparameter tuning** - Grid search or random search
+4. **Model training** - With best parameters found
+5. **Performance evaluation** - Comprehensive metrics
 
-### Model Performance Evaluation
+#### **Validation Strategy**
+- **Temporal cross-validation** - Respects chronological order of data
+- **Multiple metrics** - R², MAE, RMSE, MAPE for complete evaluation
+- **Residual analysis** - Identification of error patterns
+- **Generalization validation** - Performance on unseen data
 
-The training notebook will provide comprehensive evaluation:
+### Performance Evaluation
+
+The model will be evaluated using standard metrics:
 
 | Metric | Description | Expected Range |
-|--------|-------------|----------------|
+|---------|-------------|----------------|
 | **R² Score** | Explained variance | > 0.85 |
 | **MAE** | Mean Absolute Error | < 10% of mean sales |
 | **RMSE** | Root Mean Square Error | < 15% of mean sales |
@@ -172,188 +162,134 @@ The training notebook will provide comprehensive evaluation:
 
 ### Understanding ONNX Benefits
 
-**ONNX (Open Neural Network Exchange)** provides:
-- **Cross-platform compatibility** - Deploy on any system
-- **Optimized inference** - Hardware-specific acceleration
-- **Standardized format** - Interoperability between frameworks
-- **Reduced dependencies** - Lighter deployment footprint
+**ONNX (Open Neural Network Exchange)** provides significant advantages:
+
+#### **Cross-platform Compatibility**
+- **Interoperability** - Works across different frameworks and operating systems
+- **Standardization** - Common format for model exchange
+- **Deployment flexibility** - From edge devices to enterprise servers
+
+#### **Performance Optimization**
+- **Hardware acceleration** - Leverages CPU, GPU and specialized hardware
+- **Graph optimizations** - Operation fusion and redundancy elimination
+- **Quantization** - Precision reduction for increased speed
+
+#### **Dependency Reduction**
+- **Lightweight runtime** - Doesn't require original training framework
+- **Smaller memory footprint** - More memory-efficient models
+- **Simplified deployment** - Less complexity in production
 
 ### Model Conversion
 
-1. **Export to ONNX Format**
-   - Execute: `2-predictive-model/notebooks/04_export_onnx.ipynb`
-   
-   This notebook handles:
-   ```python
-   # ONNX conversion process
-   # 1. Load trained scikit-learn model
-   # 2. Define input schema and data types
-   # 3. Convert using skl2onnx library
-   # 4. Validate ONNX predictions match sklearn
-   # 5. Optimize model for inference
-   # 6. Save ONNX model file
-   ```
+The notebook `2-predictive-model/notebooks/04_export_onnx.ipynb` will handle conversion:
 
-2. **Conversion Code Example**
-   ```python
-   from skl2onnx import to_onnx
-   import onnx
-   
-   # Define input types
-   initial_type = [('float_input', FloatTensorType([None, n_features]))]
-   
-   # Convert to ONNX
-   onnx_model = to_onnx(rf_model, initial_type, 
-                       target_opset=11,
-                       options={id(rf_model): {'zipmap': False}})
-   
-   # Save optimized model
-   onnx.save_model(onnx_model, 'sales_forecast_model.onnx')
-   ```
+#### **Conversion Process**
+1. **Load trained model** - Retrieve the scikit-learn model
+2. **Define input schema** - Data types and shapes for entry
+3. **Convert using skl2onnx** - Transform to ONNX format
+4. **Validate predictions** - Verify ONNX matches sklearn
+5. **Model optimization** - Apply ONNX optimizations
+6. **Save model** - Serialize the .onnx file
+
+#### **Critical Validations**
+- **Numerical equivalence** - ONNX predictions must be identical
+- **Schema validation** - Input and output correctly defined
+- **Performance tests** - Speed comparison sklearn vs ONNX
+- **Integrity verification** - ONNX file is well-formed
 
 ### ONNX Validation
 
-1. **Validate Conversion**
-   - Run: `2-predictive-model/notebooks/05_validate_onnx.ipynb`
-   
-   This ensures:
-   - ✅ **Prediction Accuracy:** ONNX predictions match sklearn exactly
-   - ✅ **Performance Improvement:** Inference speed comparison
-   - ✅ **Schema Validation:** Input/output format verification
-   - ✅ **Model Integrity:** File size and structure validation
+The notebook `2-predictive-model/notebooks/05_validate_onnx.ipynb` will ensure:
 
-**✅ Checkpoint:** ONNX model exported and validated successfully.
+- ✅ **Prediction Accuracy** - Exact match with original model
+- ✅ **Performance Improvement** - Inference speed comparison
+- ✅ **Schema Validation** - Input/output format verification
+- ✅ **Model Integrity** - File size and structure validation
+
+**✅ Checkpoint:** ONNX model is exported and validated successfully.
 
 ---
 
 ## 🚀 Step 2.5: OpenVINO Deployment
 
-### OpenVINO Serving Benefits
+### OpenVINO Benefits
 
-**OpenVINO** provides:
-- **Intel CPU Optimization** - Leverage advanced CPU features
-- **Reduced Latency** - Up to 10x faster inference
-- **Lower Resource Usage** - Efficient memory utilization
-- **Built-in Quantization** - Model compression support
+**OpenVINO (Open Visual Inference and Neural Network Optimization)** provides:
+
+#### **Intel CPU Optimization**
+- **Advanced instruction leverage** - AVX, SSE and specialized extensions
+- **Memory optimization** - Efficient cache and memory management
+- **Intelligent parallelization** - Optimal multi-core usage
+
+#### **Superior Performance**
+- **Reduced latency** - Up to 10x faster than native inference
+- **Higher throughput** - Processing more requests per second
+- **Efficient resource usage** - Lower CPU and memory consumption
+
+#### **Enterprise Features**
+- **Automatic quantization** - Precision reduction without significant loss
+- **Batch processing** - Efficient handling of multiple requests
+- **Integrated monitoring** - Performance and health metrics
 
 ### Deployment Configuration
 
-1. **Create Custom ServingRuntime**
-   - Apply: `2-predictive-model/deployment/serving-runtime.yaml`
-   
-   ```yaml
-   apiVersion: serving.kserve.io/v1alpha1
-   kind: ServingRuntime
-   metadata:
-     name: openvino-serving-runtime
-   spec:
-     supportedModelFormats:
-       - name: onnx
-         version: "1"
-         autoSelect: true
-     containers:
-       - name: kserve-container
-         image: openvino/model_server:latest
-         args:
-           - --model_name={{.Name}}
-           - --model_path=/mnt/models
-           - --port=8080
-   ```
+#### **Custom ServingRuntime**
+The file `2-predictive-model/deployment/serving-runtime.yaml` defines:
+- **Container image** - OpenVINO Model Server optimized
+- **Resource configuration** - CPU, memory and scaling policies
+- **Server parameters** - Ports, model paths and configurations
+- **Health checks** - Endpoints for health monitoring
 
-2. **Deploy InferenceService**
-   - Apply: `2-predictive-model/deployment/inference-service.yaml`
-   
-   ```yaml
-   apiVersion: serving.kserve.io/v1beta1
-   kind: InferenceService
-   metadata:
-     name: sales-forecasting-model
-   spec:
-     predictor:
-       model:
-         modelFormat:
-           name: onnx
-         runtime: openvino-serving-runtime
-         storageUri: "pvc://models/sales_forecast_model.onnx"
-       resources:
-         requests:
-           cpu: 1
-           memory: 2Gi
-         limits:
-           cpu: 2
-           memory: 4Gi
-   ```
+#### **InferenceService**
+The file `2-predictive-model/deployment/inference-service.yaml` specifies:
+- **Model reference** - ONNX file location
+- **Runtime used** - Connection with OpenVINO ServingRuntime
+- **Allocated resources** - CPU/memory limits and requests
+- **Scaling policies** - Auto-scaling configuration
 
 ### Deployment Verification
 
-1. **Test Deployment**
-   - Execute: `2-predictive-model/deployment/test_deployment.ipynb`
-   
-   This notebook verifies:
+The notebook `2-predictive-model/deployment/test_deployment.ipynb` will perform comprehensive verifications:
 
-   ```python
-   # Deployment testing checklist
-   # 1. Check InferenceService status
-   # 2. Test endpoint connectivity
-   # 3. Validate prediction accuracy
-   # 4. Measure response time
-   # 5. Test error handling
-   # 6. Performance benchmarking
-   ```
+#### **Connectivity Tests**
+- **InferenceService status** - Verification it's "Ready"
+- **Endpoint accessibility** - HTTP connectivity tests
+- **Response time** - Prediction latency measurement
 
-2. **Monitoring Deployment Status**
-   ```bash
-   # Check deployment status
-   oc get inferenceservice sales-forecasting-model
-   
-   # View detailed status
-   oc describe inferenceservice sales-forecasting-model
-   
-   # Check pod logs
-   oc logs -l serving.kserve.io/inferenceservice=sales-forecasting-model
-   ```
+#### **Functional Validation**
+- **Prediction accuracy** - Comparison with expected results
+- **Error handling** - Response to invalid inputs
+- **Response format** - Correct output structure
+
+#### **Performance Benchmarking**
+- **Throughput** - Requests per second supported
+- **Latency** - Response time under load
+- **Resource utilization** - CPU and memory usage during operation
 
 **✅ Checkpoint:** Model is deployed and serving predictions via REST API.
 
 ---
 
-## 🧪 Step 2.6: Model Testing and Performance Validation
+## 🧪 Step 2.6: Testing and Performance Validation
 
 ### API Testing
 
-The deployment test notebook performs comprehensive validation:
+The testing notebook will execute comprehensive scenarios:
 
-```python
-# Example API test
-import requests
-import json
+#### **Functional Tests**
+- **Standard test cases** - Typical inputs and expected outputs
+- **Edge cases** - Extreme values and edge cases
+- **Error handling** - Responses to malformed or missing data
 
-# Test data
-test_features = {
-    "day_of_week": 1,
-    "month": 12,
-    "price": 99.99,
-    "promotion_flag": 1,
-    "sales_7d_avg": 150.5
-}
+#### **Load Tests**
+- **Concurrent requests** - Multiple simultaneous calls
+- **Sustainability** - Performance under prolonged load
+- **Recovery** - Behavior after traffic spikes
 
-# Make prediction request
-response = requests.post(
-    endpoint_url,
-    json={"instances": [test_features]},
-    headers={"Content-Type": "application/json"}
-)
-
-prediction = response.json()["predictions"][0]
-print(f"Predicted sales volume: {prediction}")
-```
-
-### Performance Benchmarks
-
-Expected performance metrics:
+### Expected Performance Metrics
 
 | Metric | Target | Typical Result |
-|--------|--------|----------------|
+|---------|--------|----------------|
 | **Response Time** | < 100ms | ~50-80ms |
 | **Throughput** | > 100 RPS | ~200-500 RPS |
 | **CPU Usage** | < 50% | ~30-40% |
@@ -363,73 +299,38 @@ Expected performance metrics:
 
 ## 🔧 Troubleshooting Guide
 
-### Common Issues and Solutions
+### Common ONNX Conversion Errors
 
-#### Issue 1: ONNX Conversion Errors
+**Issue:** Model conversion failures
 
-**Symptoms:**
-```
-ValueError: Unable to convert model
-```
+**Typical Causes:**
+- **Version incompatibility** between scikit-learn and skl2onnx
+- **Inconsistent data types** in features
+- **Unsupported features** by ONNX converter
 
-**Solutions:**
-```python
-# Check sklearn version compatibility
-print(sklearn.__version__)  # Should be >= 1.3.0
+**Solution Strategies:**
+The notebook includes compatibility checks and alternatives for problematic features.
 
-# Verify feature types
-print(X_train.dtypes)  # All should be numeric
+### InferenceService Issues
 
-# Simplify model if needed
-rf_model = RandomForestRegressor(n_estimators=100, max_depth=10)
-```
+**Issue:** Service doesn't reach "Ready" state
 
-#### Issue 2: InferenceService Not Ready
+**Typical Diagnosis:**
+- **Insufficient resources** in cluster
+- **Inaccessible or corrupt model file**
+- **Incorrect runtime configuration**
 
-**Symptoms:**
-```bash
-oc get inferenceservice
-# STATUS: False
-```
+**Solution Approach:**
+Diagnostic commands and systematic steps to identify and resolve deployment issues are provided.
 
-**Diagnosis:**
-```bash
-# Check events
-oc get events --sort-by=.metadata.creationTimestamp
+### Latency Optimization
 
-# Check pod status
-oc get pods -l serving.kserve.io/inferenceservice=sales-forecasting-model
+**Issue:** Response time greater than 200ms
 
-# View logs
-oc logs <pod-name>
-```
-
-**Solutions:**
-- Verify model file exists in storage
-- Check resource limits and node capacity
-- Validate ONNX model format
-
-#### Issue 3: High Latency
-
-**Symptoms:** Response time > 200ms
-
-**Solutions:**
-```yaml
-# Optimize resource allocation
-resources:
-  requests:
-    cpu: 2      # Increase CPU
-    memory: 4Gi
-  limits:
-    cpu: 4
-    memory: 8Gi
-
-# Add performance annotations
-metadata:
-  annotations:
-    serving.kserve.io/enable-prometheus-scraping: "true"
-    autoscaling.knative.dev/target: "10"
-```
+**Optimization Strategies:**
+- **Resource adjustment** - Increase allocated CPU
+- **Batch size optimization** - Configuration for individual requests
+- **OpenVINO tuning** - Runtime-specific parameters
 
 ---
 
@@ -437,12 +338,12 @@ metadata:
 
 ### What You've Accomplished
 
-✅ **Data Analysis Complete**
+✅ **Complete Data Analysis**
 - Explored 10,000+ sales records
 - Identified key patterns and trends
 - Engineered meaningful features
 
-✅ **Model Development Success**
+✅ **Successful Model Development**
 - Trained Random Forest with >85% accuracy
 - Implemented proper validation methodology
 - Optimized hyperparameters
@@ -450,7 +351,7 @@ metadata:
 ✅ **ONNX Export Mastery**
 - Successfully converted sklearn to ONNX
 - Validated prediction accuracy
-- Reduced model deployment complexity
+- Reduced deployment complexity
 
 ✅ **Production Deployment**
 - Deployed with OpenVINO optimization
@@ -470,7 +371,7 @@ metadata:
 
 ## 🚀 Next Steps
 
-Your predictive model is now serving sales forecasts in production! In the next module, you'll:
+Your predictive model is now serving sales forecasts in production! In the next module you'll learn:
 
 1. **Deploy Granite 3.1 8B** - Large language model for text generation
 2. **Configure vLLM serving** - High-performance LLM inference
@@ -495,7 +396,7 @@ The combination of predictive and generative models will create a powerful AI sy
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Environment Setup](01-environment-setup.md) | [🏠 Main Guide](../README.md) | [➡️ Next: Generative Model](03-generative-model.md)
+[⬅️ Previous: Environment Setup](01-environment-setup.md) | [🏠 Main Guide](README.md) | [➡️ Next: Generative Model](03-generative-model.md)
 
 ---
 

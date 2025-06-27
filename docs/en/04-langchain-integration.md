@@ -4,7 +4,7 @@
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Generative Model](03-generative-model.md) | [🏠 Main Guide](../README.md) | [➡️ Next: Monitoring](05-monitoring.md)
+[⬅️ Previous: Generative Model](03-generative-model.md) | [🏠 Main Guide](README.md) | [➡️ Next: Monitoring](05-monitoring.md)
 
 ---
 
@@ -587,7 +587,7 @@ The monitoring and optimization will ensure your AI system runs reliably in prod
 ---
 
 ### 📍 Navigation
-[⬅️ Previous: Generative Model](03-generative-model.md) | [🏠 Main Guide](../README.md) | [➡️ Next: Monitoring](05-monitoring.md)
+[⬅️ Previous: Generative Model](03-generative-model.md) | [🏠 Main Guide](README.md) | [➡️ Next: Monitoring](05-monitoring.md)
 
 ---
 
